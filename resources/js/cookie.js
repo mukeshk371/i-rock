@@ -2,13 +2,10 @@
 /*                                              COOKIES                                            */
 /*-------------------------------------------------------------------------------------------------*/
 function writeCookie(name, value, days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toGMTString();
-    }
-    document.cookie = name + "=" + value + expires + "; path=/";
+    var d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
 }
 
 function readCookie(name) {
@@ -16,21 +13,25 @@ function readCookie(name) {
     var cookies = document.cookie.split(';');
     for (var i = 0; i < cookies.length; i++) {
         var c = cookies[i];
-        while (c.charAt(0) == " ")
+        while (c.charAt(0) == " ") {
             c = c.substring(1, c.length);
-        if (c.indexOf(searchName) == 0)
+        }
+        if (c.indexOf(searchName) == 0) {
             return c.substring(searchName.length, c.length);
+        }
     }
-    return null;
+    return "";
 }
 
 
 function alertText() {
     userName = readCookie("irock_username");
-    if (userName)
-        alert("Hello " + userName + ", I missed you.");
-    else
+    if (userName) {
+        alert("Hello " + userName + " Welcome ! Once Again.");
+    }
+    else {
         alert('Hello, I am your pet rock.');
+    }
 }
 
 function clickRock() {
@@ -43,4 +44,7 @@ function clickRock() {
             writeCookie("irock_username", userName, 5 * 365);
         }
     }
+    document.getElementById("rockImage").src = "resources/images/rock.png";
 }
+
+document.cookie = "userName=John Doe; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/";
